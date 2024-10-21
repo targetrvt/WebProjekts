@@ -85,7 +85,7 @@ class parallaxTiltEffect {
   
   const wrap2 = new parallaxTiltEffect({
     element: $('.wrap--2'),
-    tiltEffect: 'normal'
+    tiltEffect: 'reverse'
   });
   
   const wrap3 = new parallaxTiltEffect({
