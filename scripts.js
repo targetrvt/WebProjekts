@@ -1,82 +1,100 @@
 class parallaxTiltEffect {
-  constructor({ element, tiltEffect }) {
-      this.element = element;
-      this.container = this.element.querySelector(".container");
-      this.size = [300, 360];
-      [this.w, this.h] = this.size;
-
-      this.tiltEffect = tiltEffect;
-      this.mouseOnComponent = false;
-
-      this.handleMouseMove = this.handleMouseMove.bind(this);
-      this.handleMouseEnter = this.handleMouseEnter.bind(this);
-      this.handleMouseLeave = this.handleMouseLeave.bind(this);
-      this.defaultStates = this.defaultStates.bind(this);
-      this.setProperty = this.setProperty.bind(this);
-      this.toggleDescription = this.toggleDescription.bind(this);
-      this.init = this.init.bind(this);
-
-      this.init();
+    constructor({ element, tiltEffect }) {
+        this.element = element;
+        this.container = this.element.querySelector(".container");
+        this.size = [300, 360];
+        [this.w, this.h] = this.size;
+  
+        this.tiltEffect = tiltEffect;
+        this.mouseOnComponent = false;
+  
+        this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleMouseEnter = this.handleMouseEnter.bind(this);
+        this.handleMouseLeave = this.handleMouseLeave.bind(this);
+        this.defaultStates = this.defaultStates.bind(this);
+        this.setProperty = this.setProperty.bind(this);
+        this.toggleDescription = this.toggleDescription.bind(this);
+        this.init = this.init.bind(this);
+  
+        this.init();
+    }
+    toggleMenu() {
+        const navList = document.querySelector('.nav-list');
+        navList.classList.toggle('active');
+    }
+    
+    handleMouseMove(event) {
+        const { offsetX, offsetY } = event;
+        let X, Y;
+  
+        if (this.tiltEffect === "reverse") {
+            X = ((offsetX - (this.w / 2)) / 3) / 3;
+            Y = (-(offsetY - (this.h / 2)) / 3) / 3;
+        } else if (this.tiltEffect === "normal") {
+            X = (-(offsetX - (this.w / 2)) / 3) / 3;
+            Y = ((offsetY - (this.h / 2)) / 3) / 3;
+        }
+  
+        this.setProperty('--rY', X.toFixed(2));
+        this.setProperty('--rX', Y.toFixed(2));
+        this.setProperty('--bY', (80 - (X / 4).toFixed(2)) + '%');
+        this.setProperty('--bX', (50 - (Y / 4).toFixed(2)) + '%');
+    }
+  
+    handleMouseEnter() {
+        this.mouseOnComponent = true;
+        this.container.classList.add("container--active");
+    }
+  
+    handleMouseLeave() {
+        this.mouseOnComponent = false;
+        this.defaultStates();
+    }
+  
+    defaultStates() {
+        this.container.classList.remove("container--active");
+        this.setProperty('--rY', 10);
+        this.setProperty('--rX', 10);
+        this.setProperty('--bY', '80%');
+        this.setProperty('--bX', '50%');
+    }
+    toggleDescription() {
+        const description = this.container.querySelector('.description');
+        if (description.style.display === "none" || description.style.display === "") {
+            description.style.display = "block"; 
+            description.style.color = "white";  // Change text color to white
+            this.container.classList.add('active'); 
+            this.container.dataset.scaled = "true"; // Set a custom attribute to indicate scaling
+        } else {
+            description.style.display = "none"; 
+            this.container.classList.remove('active'); 
+            description.style.color = "";  // Reset text color to default
+            delete this.container.dataset.scaled; // Remove the scaling attribute
+        }
+        this.updateTransform(); // Update the transform every time you click
+    }
+    
+    
+    updateTransform() {
+        const scale = this.container.dataset.scaled ? 1.1 : 1; // Check if scaled
+        this.container.style.transform = `scale(${scale}) rotateX(calc(var(--rX) * 1deg)) rotateY(calc(var(--rY) * 1deg))`;
+    }
+    
+    
+    
+  
+    setProperty(p, v) {
+        return this.container.style.setProperty(p, v);
+    }
+  
+    init() {
+        this.element.addEventListener('mousemove', this.handleMouseMove);
+        this.element.addEventListener('mouseenter', this.handleMouseEnter);
+        this.element.addEventListener('mouseleave', this.handleMouseLeave);
+        this.element.addEventListener('click', this.toggleDescription); 
+    }
   }
-
-  handleMouseMove(event) {
-      const { offsetX, offsetY } = event;
-      let X, Y;
-
-      if (this.tiltEffect === "reverse") {
-          X = ((offsetX - (this.w / 2)) / 3) / 3;
-          Y = (-(offsetY - (this.h / 2)) / 3) / 3;
-      } else if (this.tiltEffect === "normal") {
-          X = (-(offsetX - (this.w / 2)) / 3) / 3;
-          Y = ((offsetY - (this.h / 2)) / 3) / 3;
-      }
-
-      this.setProperty('--rY', X.toFixed(2));
-      this.setProperty('--rX', Y.toFixed(2));
-      this.setProperty('--bY', (80 - (X / 4).toFixed(2)) + '%');
-      this.setProperty('--bX', (50 - (Y / 4).toFixed(2)) + '%');
-  }
-
-  handleMouseEnter() {
-      this.mouseOnComponent = true;
-      this.container.classList.add("container--active");
-  }
-
-  handleMouseLeave() {
-      this.mouseOnComponent = false;
-      this.defaultStates();
-  }
-
-  defaultStates() {
-      this.container.classList.remove("container--active");
-      this.setProperty('--rY', 10);
-      this.setProperty('--rX', 10);
-      this.setProperty('--bY', '80%');
-      this.setProperty('--bX', '50%');
-  }
-
-  toggleDescription() {
-      const description = this.container.querySelector('.description');
-      if (description.style.display === "none" || description.style.display === "") {
-          description.style.display = "block"; 
-          this.container.classList.add('active'); 
-      } else {
-          description.style.display = "none"; 
-          this.container.classList.remove('active'); 
-      }
-  }
-
-  setProperty(p, v) {
-      return this.container.style.setProperty(p, v);
-  }
-
-  init() {
-      this.element.addEventListener('mousemove', this.handleMouseMove);
-      this.element.addEventListener('mouseenter', this.handleMouseEnter);
-      this.element.addEventListener('mouseleave', this.handleMouseLeave);
-      this.element.addEventListener('click', this.toggleDescription); 
-  }
-}
+  
 
 
 const $ = e => document.querySelector(e);
