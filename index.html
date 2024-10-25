@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Counter-Strike</title>
     <link rel="stylesheet" href="styles.css">
-
 </head>
 <body>
     <header>
@@ -18,14 +17,29 @@
             <nav class="navigation">
                 <ul class="nav-list">
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
+                    <li>
+                        <a href="#" class="about-link">About</a>
+                        <ul class="dropdown">
+                            <li><a href="https://blog.counter-strike.net/index.php/history/">History</a></li>
+                            <li><a href="https://counterstrike.fandom.com/wiki/Gameplay_Mechanics">Gameplay</a></li>
+                            <li><a href="https://www.hltv.org/live">Competitive Scene</a></li>
+                            <li><a href="https://csfloat.com/db">Skins</a></li>
+                            <li><a href="https://www.counter-strike.net/news">News</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#">Contact</a></li>
+                    
+                        <input type="checkbox" class="checkbox" id="checkbox">
+                    <label for="checkbox" class="checkbox-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="ball"></span>
+                    </label>
                 </ul>
                 <div class="hamburger-menu" onclick="toggleMenu()">☰</div>
             </nav>
         </div>
     </header>
-    
     
     <main class="main">
         <div class="wrap wrap--1">

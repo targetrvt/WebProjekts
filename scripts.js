@@ -18,10 +18,6 @@ class parallaxTiltEffect {
   
         this.init();
     }
-    toggleMenu() {
-        const navList = document.querySelector('.nav-list');
-        navList.classList.toggle('active');
-    }
     
     handleMouseMove(event) {
         const { offsetX, offsetY } = event;
@@ -110,3 +106,11 @@ const wrap3 = new parallaxTiltEffect({
   element: $('.wrap--3'),
   tiltEffect: 'reverse'
 });
+function toggleMenu() {
+    const navList = document.querySelector('.nav-list');
+    navList.classList.toggle('active');
+  }
+const checkbox = document.getElementById("checkbox")
+  checkbox.addEventListener("change", () => {
+    document.body.classList.toggle("dark")
+  })
