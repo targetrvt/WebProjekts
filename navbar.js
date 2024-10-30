@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         <li>
                             <a href="#">Counter-Strike</a>
                             <ul class="dropdown">
-                                <li><a href="cs1.6.html">CS 1.6</a></li>
+                                <li><a href="cs16.html">CS 1.6</a></li>
                                 <li><a href="csgo.html">CS:GO</a></li>
                                 <li><a href="cs2.html">CS2</a></li>
                             </ul>
